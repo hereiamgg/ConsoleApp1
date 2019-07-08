@@ -35,7 +35,10 @@ namespace DIMSClient
             {
                 foreach (DataRow dataRow in dataTableMemory.Rows)
                 {
-                    WatcherStart(dataRow["本地文件夹"].ToString(),"*.*");
+                    if (dataRow["状态"].ToString() == "启用")
+                    {
+                        WatcherStart(dataRow["本地文件夹"].ToString(), "*.*");
+                    }
                 }
             }
         }
@@ -59,10 +62,17 @@ namespace DIMSClient
                 FtpClient conn = new FtpClient();
                 try
                 {
-                    conn.Host = tbFTPFolder.Text.Trim();
+                    conn.Host = tbFTPHost.Text.Trim();                    
                     conn.Credentials = new NetworkCredential(tbFTPUserName.Text.Trim(), tbFTPPwd.Text.Trim());
                     conn.Connect();
-                    MessageBox.Show("FTP连接测试成功！");
+                    if (conn.DirectoryExists(tbFTPFolder.Text.Trim()))
+                    {
+                        MessageBox.Show("FTP连接测试成功！");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"{tbFTPHost.Text.Trim()}{tbFTPFolder.Text.Trim()}无法连接");
+                    }
                 }
                 catch (Exception error)
                 {
@@ -95,14 +105,14 @@ namespace DIMSClient
                 this.tbFTPFolder.Text = dgvConfigs.Rows[0].Cells["FTP文件夹"].Value.ToString();
                 this.tbFTPUserName.Text = dgvConfigs.Rows[0].Cells["FTP账号"].Value.ToString();
                 this.tbFTPPwd.Text = dgvConfigs.Rows[0].Cells["FTP密码"].Value.ToString();
-                this.cbEnable.Checked = dgvConfigs.Rows[0].Cells["启用"].Value.ToString() == "是" ? true : false;
+                this.cbEnable.Checked = dgvConfigs.Rows[0].Cells["状态"].Value.ToString() == "启用" ? true : false;
             }
         }
 
         static private Mapping GetMappingByLocalFolder(string localFolder)
         {
             Mapping mapping = null;
-            DataRow[] dataRows = dataTableMemory.Select($"本地文件夹={localFolder}");
+            DataRow[] dataRows = dataTableMemory.Select($"本地文件夹={Path.GetDirectoryName(localFolder)}");
             if (dataRows.Length > 0)
             {
                 mapping = new Mapping(dataRows[0]["序号"].ToString(), dataRows[0]["本地文件夹"].ToString(), dataRows[0]["FTP服务器地址"].ToString(), dataRows[0]["FTP文件夹"].ToString(), dataRows[0]["FTP账号"].ToString(), dataRows[0]["FTP密码"].ToString(), dataRows[0]["状态"].ToString());
@@ -139,7 +149,7 @@ namespace DIMSClient
                         dataRow["FTP文件夹"] = tbFTPFolder.Text.Trim();
                         dataRow["FTP账号"] = tbFTPUserName.Text.Trim();
                         dataRow["FTP密码"] = tbFTPPwd.Text.Trim();
-                        dataRow["启用"] = cbEnable.Checked ? "启用" : "禁用";
+                        dataRow["状态"] = cbEnable.Checked ? "启用" : "禁用";
                         dataTableMemory.Rows.Add(dataRow);
                     }
                     else
@@ -160,7 +170,7 @@ namespace DIMSClient
                         dataRow["FTP文件夹"] = tbFTPFolder.Text.Trim();
                         dataRow["FTP账号"] = tbFTPUserName.Text.Trim();
                         dataRow["FTP密码"] = tbFTPPwd.Text.Trim();
-                        dataRow["启用"] = cbEnable.Checked ? "启用" : "禁用";
+                        dataRow["状态"] = cbEnable.Checked ? "启用" : "禁用";
                         dataTableMemory.Rows.Add(dataRow);
                     }
                     dataTableMemory.WriteXml(configpath);
@@ -175,7 +185,7 @@ namespace DIMSClient
                         dgvConfigs.CurrentRow.Cells["FTP文件夹"].Value = tbFTPFolder.Text.Trim();
                         dgvConfigs.CurrentRow.Cells["FTP账号"].Value = tbFTPUserName.Text.Trim();
                         dgvConfigs.CurrentRow.Cells["FTP密码"].Value = tbFTPPwd.Text.Trim();
-                        dgvConfigs.CurrentRow.Cells["启用"].Value = cbEnable.Checked ? "启用" : "禁用";
+                        dgvConfigs.CurrentRow.Cells["状态"].Value = cbEnable.Checked ? "启用" : "禁用";
 
                         DataRow[] dataRows = dataTableMemory.Select($"序号={dgvConfigs.CurrentRow.Cells["序号"].Value.ToString()}");
                         foreach (DataRow dataRow in dataRows)
@@ -185,7 +195,7 @@ namespace DIMSClient
                             dataRow["FTP文件夹"] = tbFTPFolder.Text.Trim();
                             dataRow["FTP账号"] = tbFTPUserName.Text.Trim();
                             dataRow["FTP密码"] = tbFTPPwd.Text.Trim();
-                            dataRow["启用"] = cbEnable.Checked ? "启用" : "禁用";
+                            dataRow["状态"] = cbEnable.Checked ? "启用" : "禁用";
                         }
                         dataTableMemory.WriteXml(configpath);
                         GetData();
@@ -206,7 +216,7 @@ namespace DIMSClient
                     this.tbFTPFolder.Text = dgvConfigs.CurrentRow.Cells["FTP文件夹"].Value.ToString();
                     this.tbFTPUserName.Text = dgvConfigs.CurrentRow.Cells["FTP账号"].Value.ToString();
                     this.tbFTPPwd.Text = dgvConfigs.CurrentRow.Cells["FTP密码"].Value.ToString();
-                    this.cbEnable.Checked = dgvConfigs.CurrentRow.Cells["启用"].Value.ToString() == "是" ? true : false;
+                    this.cbEnable.Checked = dgvConfigs.CurrentRow.Cells["状态"].Value.ToString() == "是" ? true : false;
                 }
                 catch (Exception error)
                 {
@@ -217,7 +227,7 @@ namespace DIMSClient
         #endregion
 
         #region WatcherFile
-        private static void UploadFile(string sourcePath)
+        private void UploadFile(string sourcePath)
         {
             try
             {
@@ -244,7 +254,7 @@ namespace DIMSClient
                         }
                     }
                     ftpClient.SetModifiedTime(targetFileName, fileInfo.LastWriteTime.AddHours(-8), FtpDate.Original);
-                    log.Info($"{DateTime.Now.ToString()}:{sourcePath}上传成功，{mapping.FtpHost}/{targetFileName}");
+                    log.Info($"{DateTime.Now.ToString()}:{sourcePath}上传成功，{mapping.FtpHost}/{targetFileName}");                   
                 }
             }
             catch (Exception error)
@@ -253,7 +263,7 @@ namespace DIMSClient
             }
         }
 
-        private static void WatcherStart(string path, string filter)
+        private void WatcherStart(string path, string filter)
         {
             FileSystemSafeWatcher watcher = new FileSystemSafeWatcher
             {
@@ -267,7 +277,7 @@ namespace DIMSClient
             watcher.IncludeSubdirectories = true;
         }
 
-        private static void OnProcess(object source, FileSystemEventArgs e)
+        private void OnProcess(object source, FileSystemEventArgs e)
         {
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
@@ -278,13 +288,13 @@ namespace DIMSClient
                 OnChanged(source, e);
             }
         }
-        private static void OnCreated(object source, FileSystemEventArgs e)
+        private void OnCreated(object source, FileSystemEventArgs e)
         {
-            UploadFile(e.FullPath);
+            this.UploadFile(e.FullPath);
         }
-        private static void OnChanged(object source, FileSystemEventArgs e)
+        private void OnChanged(object source, FileSystemEventArgs e)
         {
-            UploadFile(e.FullPath);
+            this.UploadFile(e.FullPath);
         }
         #endregion
     }

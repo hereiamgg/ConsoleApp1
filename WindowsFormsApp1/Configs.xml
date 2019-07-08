@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configs>
-  <mapping 序号="1" 本地文件夹="c:\aa" FTP文件夹="" FTP账号="ftpuser" FTP密码="1qsxdr5thnm,./" 启用="否" ></mapping>
-  <mapping 序号="1" 本地文件夹="c:\aa" FTP文件夹="" FTP账号="ftpuser" FTP密码="1qsxdr5thnm,./" 启用="是" ></mapping>
+  <mapping 序号="1" 本地文件夹="d:\temp3" FTP服务器地址="10.116.45.146" FTP文件夹="色谱2" FTP账号="ftpuser" FTP密码="1qsxdr5thnm,./" 状态="启用" ></mapping>
 </configs> 
