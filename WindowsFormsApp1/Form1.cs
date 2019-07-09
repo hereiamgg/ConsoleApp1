@@ -112,16 +112,12 @@ namespace DIMSClient
         static private Mapping GetMappingByLocalFolder(string localFolder)
         {
             Mapping mapping = null;
-            DataRow[] dataRows = dataTableMemory.Select($"本地文件夹={Path.GetDirectoryName(localFolder)}");
+            DataRow[] dataRows = dataTableMemory.Select($"本地文件夹='{Path.GetDirectoryName(localFolder)}'");
             if (dataRows.Length > 0)
             {
                 mapping = new Mapping(dataRows[0]["序号"].ToString(), dataRows[0]["本地文件夹"].ToString(), dataRows[0]["FTP服务器地址"].ToString(), dataRows[0]["FTP文件夹"].ToString(), dataRows[0]["FTP账号"].ToString(), dataRows[0]["FTP密码"].ToString(), dataRows[0]["状态"].ToString());
             }
             return mapping;
-        }
-        private void BtnGetData_Click(object sender, EventArgs e)
-        {
-            this.GetData();
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
@@ -242,7 +238,7 @@ namespace DIMSClient
                     if (ftpClient.FileExists(targetFileName))
                     {
                         //if ftp folder had the same filename,then modify source filename with new filename
-                        sourceFileName = $"{Path.GetFileNameWithoutExtension(sourceFileName)}{fileInfo.LastWriteTime.ToString("yyyyMMddHHmmssfff")}{Path.GetExtension(sourceFileName)}";
+                        targetFileName = $"{mapping.FtpFolder}/{Path.GetFileNameWithoutExtension(sourceFileName)}{fileInfo.LastWriteTime.ToString("yyyyMMddHHmmssfff")}{Path.GetExtension(sourceFileName)}";
                     }
                     using (Stream istream = new FileStream(sourcePath, FileMode.Open, FileAccess.Read), ostream = ftpClient.OpenWrite(targetFileName))
                     {
@@ -254,12 +250,14 @@ namespace DIMSClient
                         }
                     }
                     ftpClient.SetModifiedTime(targetFileName, fileInfo.LastWriteTime.AddHours(-8), FtpDate.Original);
-                    log.Info($"{DateTime.Now.ToString()}:{sourcePath}上传成功，{mapping.FtpHost}/{targetFileName}");                   
+                    string msg = $"{DateTime.Now.ToString()}:{sourcePath}上传成功，{mapping.FtpHost}/{targetFileName}";
+                    log.Info(msg);
                 }
             }
             catch (Exception error)
             {
                 log.Error($"{DateTime.Now.ToString()}:{sourcePath}上传失败，错误原因：{error.Message}");
+                MessageBox.Show($"{DateTime.Now.ToString()}:{sourcePath}上传失败，错误原因：{error.Message}");
             }
         }
 
@@ -296,6 +294,20 @@ namespace DIMSClient
         {
             this.UploadFile(e.FullPath);
         }
+
+        private void ShowLog(string msg)
+        {
+            string log = $"{tbLog.Text}\\r\\n{msg}";
+            if (log.Length > 4000)
+            {
+                tbLog.Text = msg;
+            }
+            else
+            {
+                tbLog.Text = log;
+            }
+        }
+
         #endregion
     }
 }

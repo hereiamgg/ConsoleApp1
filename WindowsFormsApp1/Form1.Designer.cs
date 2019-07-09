@@ -28,12 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tbLog = new System.Windows.Forms.TextBox();
             this.dgvConfigs = new System.Windows.Forms.DataGridView();
             this.panEdit = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.tbFTPHost = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnGetData = new System.Windows.Forms.Button();
             this.btnSelectLocalFile = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -49,10 +53,7 @@
             this.lblLocalFolder = new System.Windows.Forms.Label();
             this.panLog = new System.Windows.Forms.Panel();
             this.panDataGrid = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvConfigs)).BeginInit();
             this.panEdit.SuspendLayout();
             this.panLog.SuspendLayout();
@@ -91,7 +92,6 @@
             this.panEdit.Controls.Add(this.label5);
             this.panEdit.Controls.Add(this.tbFTPHost);
             this.panEdit.Controls.Add(this.label4);
-            this.panEdit.Controls.Add(this.btnGetData);
             this.panEdit.Controls.Add(this.btnSelectLocalFile);
             this.panEdit.Controls.Add(this.btnDelete);
             this.panEdit.Controls.Add(this.btnSave);
@@ -110,6 +110,50 @@
             this.panEdit.Size = new System.Drawing.Size(502, 303);
             this.panEdit.TabIndex = 2;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label8.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.label8.Location = new System.Drawing.Point(151, 178);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(113, 12);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "填写示例：ftpuser1";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.label7.Location = new System.Drawing.Point(151, 133);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(107, 12);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "填写示例：\\Report";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label6.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.label6.Location = new System.Drawing.Point(151, 88);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(131, 12);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "填写示例：192.168.1.1";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.label5.Location = new System.Drawing.Point(151, 43);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(119, 12);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "填写示例：D:\\Report";
+            // 
             // tbFTPHost
             // 
             this.tbFTPHost.Location = new System.Drawing.Point(151, 61);
@@ -126,16 +170,6 @@
             this.label4.TabIndex = 15;
             this.label4.Text = "FTP服务器地址";
             // 
-            // btnGetData
-            // 
-            this.btnGetData.Location = new System.Drawing.Point(52, 267);
-            this.btnGetData.Name = "btnGetData";
-            this.btnGetData.Size = new System.Drawing.Size(75, 23);
-            this.btnGetData.TabIndex = 14;
-            this.btnGetData.Text = "加载配置";
-            this.btnGetData.UseVisualStyleBackColor = true;
-            this.btnGetData.Click += new System.EventHandler(this.BtnGetData_Click);
-            // 
             // btnSelectLocalFile
             // 
             this.btnSelectLocalFile.Location = new System.Drawing.Point(411, 16);
@@ -148,9 +182,9 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(363, 267);
+            this.btnDelete.Location = new System.Drawing.Point(362, 267);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(83, 23);
+            this.btnDelete.Size = new System.Drawing.Size(100, 23);
             this.btnDelete.TabIndex = 12;
             this.btnDelete.Text = "删除配置";
             this.btnDelete.UseVisualStyleBackColor = true;
@@ -158,7 +192,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(251, 267);
+            this.btnSave.Location = new System.Drawing.Point(207, 267);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 23);
             this.btnSave.TabIndex = 11;
@@ -168,7 +202,7 @@
             // 
             // btnTestFTP
             // 
-            this.btnTestFTP.Location = new System.Drawing.Point(139, 267);
+            this.btnTestFTP.Location = new System.Drawing.Point(52, 267);
             this.btnTestFTP.Name = "btnTestFTP";
             this.btnTestFTP.Size = new System.Drawing.Size(100, 23);
             this.btnTestFTP.TabIndex = 10;
@@ -268,49 +302,10 @@
             this.panDataGrid.Size = new System.Drawing.Size(502, 197);
             this.panDataGrid.TabIndex = 4;
             // 
-            // label5
+            // notifyIcon
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label5.Location = new System.Drawing.Point(151, 43);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(119, 12);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "填写示例：D:\\Report";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label6.Location = new System.Drawing.Point(151, 88);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(131, 12);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "填写示例：192.168.1.1";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label7.Location = new System.Drawing.Point(151, 133);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(107, 12);
-            this.label7.TabIndex = 19;
-            this.label7.Text = "填写示例：\\Report";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label8.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label8.Location = new System.Drawing.Point(151, 178);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(113, 12);
-            this.label8.TabIndex = 20;
-            this.label8.Text = "填写示例：ftpuser1";
+            this.notifyIcon.Text = "分析仪器报告自动采集上传软件";
+            this.notifyIcon.Visible = true;
             // 
             // Form1
             // 
@@ -321,7 +316,7 @@
             this.Controls.Add(this.panLog);
             this.Controls.Add(this.panEdit);
             this.Name = "Form1";
-            this.Text = "报告自动采集上传软件V1.0";
+            this.Text = "色谱分析报告自动采集上传软件V1.0";
             ((System.ComponentModel.ISupportInitialize)(this.dgvConfigs)).EndInit();
             this.panEdit.ResumeLayout(false);
             this.panEdit.PerformLayout();
@@ -350,7 +345,6 @@
         private System.Windows.Forms.TextBox tbLocalFolder;
         private System.Windows.Forms.Label lblLocalFolder;
         private System.Windows.Forms.Button btnSelectLocalFile;
-        private System.Windows.Forms.Button btnGetData;
         private System.Windows.Forms.Panel panLog;
         private System.Windows.Forms.Panel panDataGrid;
         private System.Windows.Forms.TextBox tbFTPHost;
@@ -359,6 +353,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
     }
 }
 
