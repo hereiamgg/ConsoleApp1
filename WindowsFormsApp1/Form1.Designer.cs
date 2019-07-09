@@ -58,11 +58,14 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.显示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panLogList = new System.Windows.Forms.Panel();
+            this.lbLogTxt = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvConfigs)).BeginInit();
             this.panEdit.SuspendLayout();
             this.panLog.SuspendLayout();
             this.panDataGrid.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.panLogList.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbLog
@@ -72,7 +75,7 @@
             this.tbLog.Multiline = true;
             this.tbLog.Name = "tbLog";
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbLog.Size = new System.Drawing.Size(385, 507);
+            this.tbLog.Size = new System.Drawing.Size(529, 381);
             this.tbLog.TabIndex = 0;
             // 
             // dgvConfigs
@@ -85,7 +88,7 @@
             this.dgvConfigs.Name = "dgvConfigs";
             this.dgvConfigs.RowTemplate.Height = 23;
             this.dgvConfigs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvConfigs.Size = new System.Drawing.Size(502, 197);
+            this.dgvConfigs.Size = new System.Drawing.Size(526, 197);
             this.dgvConfigs.TabIndex = 1;
             this.dgvConfigs.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvConfigs_CellClick);
             // 
@@ -110,9 +113,9 @@
             this.panEdit.Controls.Add(this.label2);
             this.panEdit.Controls.Add(this.tbLocalFolder);
             this.panEdit.Controls.Add(this.lblLocalFolder);
-            this.panEdit.Location = new System.Drawing.Point(409, 216);
+            this.panEdit.Location = new System.Drawing.Point(547, 216);
             this.panEdit.Name = "panEdit";
-            this.panEdit.Size = new System.Drawing.Size(502, 303);
+            this.panEdit.Size = new System.Drawing.Size(526, 303);
             this.panEdit.TabIndex = 2;
             // 
             // label8
@@ -294,17 +297,17 @@
             // panLog
             // 
             this.panLog.Controls.Add(this.tbLog);
-            this.panLog.Location = new System.Drawing.Point(12, 12);
+            this.panLog.Location = new System.Drawing.Point(12, 138);
             this.panLog.Name = "panLog";
-            this.panLog.Size = new System.Drawing.Size(385, 507);
+            this.panLog.Size = new System.Drawing.Size(529, 381);
             this.panLog.TabIndex = 3;
             // 
             // panDataGrid
             // 
             this.panDataGrid.Controls.Add(this.dgvConfigs);
-            this.panDataGrid.Location = new System.Drawing.Point(409, 13);
+            this.panDataGrid.Location = new System.Drawing.Point(547, 13);
             this.panDataGrid.Name = "panDataGrid";
-            this.panDataGrid.Size = new System.Drawing.Size(502, 197);
+            this.panDataGrid.Size = new System.Drawing.Size(526, 197);
             this.panDataGrid.TabIndex = 4;
             // 
             // notifyIcon
@@ -337,11 +340,31 @@
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
+            // panLogList
+            // 
+            this.panLogList.Controls.Add(this.lbLogTxt);
+            this.panLogList.Location = new System.Drawing.Point(13, 13);
+            this.panLogList.Name = "panLogList";
+            this.panLogList.Size = new System.Drawing.Size(528, 119);
+            this.panLogList.TabIndex = 6;
+            // 
+            // lbLogTxt
+            // 
+            this.lbLogTxt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbLogTxt.FormattingEnabled = true;
+            this.lbLogTxt.ItemHeight = 12;
+            this.lbLogTxt.Location = new System.Drawing.Point(0, 0);
+            this.lbLogTxt.Name = "lbLogTxt";
+            this.lbLogTxt.Size = new System.Drawing.Size(528, 119);
+            this.lbLogTxt.TabIndex = 0;
+            this.lbLogTxt.SelectedIndexChanged += new System.EventHandler(this.lbLogTxt_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(923, 531);
+            this.ClientSize = new System.Drawing.Size(1085, 531);
+            this.Controls.Add(this.panLogList);
             this.Controls.Add(this.panDataGrid);
             this.Controls.Add(this.panLog);
             this.Controls.Add(this.panEdit);
@@ -357,6 +380,7 @@
             this.panLog.PerformLayout();
             this.panDataGrid.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
+            this.panLogList.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -391,6 +415,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 显示ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
+        private System.Windows.Forms.Panel panLogList;
+        private System.Windows.Forms.ListBox lbLogTxt;
     }
 }
 

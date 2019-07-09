@@ -25,9 +25,16 @@ namespace DIMSClient
         public Form1()
         {
             InitializeComponent();
-            GetData();
-            InitEditPanel();
-            DoUploadTask();
+            try
+            {
+                GetData();
+                InitEditPanel();
+                DoUploadTask();
+            }
+            catch (Exception err)
+            {
+                log.Error(err.Message + err.StackTrace);
+            }
         }
 
         private void DoUploadTask()
@@ -94,6 +101,13 @@ namespace DIMSClient
         {
             dataTableMemory = XmlHelper.GetTable(configpath, XmlHelper.XmlType.File, "mapping");
             this.dgvConfigs.DataSource = dataTableMemory;
+            //log
+            DirectoryInfo directoryInfo = new DirectoryInfo($"{Directory.GetCurrentDirectory()}/logs");
+            FileInfo[] fileInfos = directoryInfo.GetFiles();
+            foreach (FileInfo fileInfo in fileInfos)
+            {
+                this.lbLogTxt.Items.Add(fileInfo.FullName);
+            }
         }
 
         private void InitEditPanel()
@@ -247,13 +261,18 @@ namespace DIMSClient
         {
             try
             {
+                FileInfo fileInfo = new FileInfo(sourcePath);//get fileinfo object for lastwritetime
+                if (Path.GetExtension(sourcePath).ToLower() == ".exe" || Path.GetExtension(sourcePath).ToLower() == ".bat")
+                {
+                    log.Warn($"{sourcePath}不允许上传！");
+                    return;
+                }
                 Mapping mapping = GetMappingByLocalFolder(sourcePath);//get mapping by sourcePath,note!! source path must be unique
                 using (FtpClient ftpClient = new FtpClient())
                 {
                     ftpClient.Host = mapping.FtpHost;
                     ftpClient.Credentials = new NetworkCredential(mapping.FtpUserName, mapping.FtpPwd);
                     string sourceFileName = Path.GetFileName(sourcePath);//filename with extension
-                    FileInfo fileInfo = new FileInfo(sourcePath);//get fileinfo object for lastwritetime
                     string targetFileName = string.IsNullOrEmpty(mapping.FtpFolder) ? $"{sourceFileName}" : $"{mapping.FtpFolder}/{sourceFileName}";//root folder is ""
                     if (ftpClient.FileExists(targetFileName))
                     {
@@ -269,15 +288,15 @@ namespace DIMSClient
                             ostream.Write(buf, 0, read);
                         }
                     }
-                    ftpClient.SetModifiedTime(targetFileName, fileInfo.LastWriteTime.AddHours(-8), FtpDate.Original);
-                    string msg = $"{DateTime.Now.ToString()}:{sourcePath}上传成功，{mapping.FtpHost}/{targetFileName}";
+                    ftpClient.SetModifiedTime(targetFileName, fileInfo.LastWriteTime.AddHours(-8));
+                    string msg = $"{sourcePath}上传成功，{mapping.FtpHost}/{targetFileName}";
                     log.Info(msg);
                     this.notifyIcon.ShowBalloonTip(5000, "提示", $"{sourcePath}上传成功！", ToolTipIcon.Info);
                 }
             }
             catch (Exception error)
             {
-                log.Error($"{DateTime.Now.ToString()}:{sourcePath}上传失败，错误原因：{error.Message}");
+                log.Error($"{sourcePath}上传失败，错误原因：{error.Message}");
                 MessageBox.Show($"{DateTime.Now.ToString()}:{sourcePath}上传失败，错误原因：{error.Message}");
                 this.notifyIcon.ShowBalloonTip(5000, "提示", $"{sourcePath}上传失败！", ToolTipIcon.Info);
             }
@@ -395,6 +414,29 @@ namespace DIMSClient
                 // 关闭所有的线程
                 this.Dispose();
                 this.Close();
+            }
+        }
+
+        private void lbLogTxt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.UpdateLog();
+        }
+
+        private void UpdateLog()
+        {
+            using (FileStream fs = new FileStream($"{lbLogTxt.SelectedItem.ToString()}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                StreamReader sr = new StreamReader(fs, Encoding.Default);
+                string line = sr.ReadLine();
+                if (!string.IsNullOrEmpty(line))
+                {
+                    tbLog.Text = string.Empty;
+                }
+                while (line != null)
+                {
+                    tbLog.Text = $"{tbLog.Text}{line}\r\n";
+                    line = sr.ReadLine();
+                }
             }
         }
     }
