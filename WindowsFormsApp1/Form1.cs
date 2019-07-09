@@ -102,6 +102,7 @@ namespace DIMSClient
             dataTableMemory = XmlHelper.GetTable(configpath, XmlHelper.XmlType.File, "mapping");
             this.dgvConfigs.DataSource = dataTableMemory;
             //log
+            lbLogTxt.Items.Clear();
             DirectoryInfo directoryInfo = new DirectoryInfo($"{Directory.GetCurrentDirectory()}/logs");
             FileInfo[] fileInfos = directoryInfo.GetFiles();
             foreach (FileInfo fileInfo in fileInfos)
@@ -438,6 +439,11 @@ namespace DIMSClient
                     line = sr.ReadLine();
                 }
             }
+        }
+
+        private void btnSelectFTP_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
