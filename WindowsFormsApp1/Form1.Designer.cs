@@ -60,6 +60,8 @@
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panLogList = new System.Windows.Forms.Panel();
             this.lbLogTxt = new System.Windows.Forms.ListBox();
+            this.btnOpenFTPFolder = new System.Windows.Forms.Button();
+            this.btnRefreshLog = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvConfigs)).BeginInit();
             this.panEdit.SuspendLayout();
             this.panLog.SuspendLayout();
@@ -74,8 +76,8 @@
             this.tbLog.Location = new System.Drawing.Point(0, 0);
             this.tbLog.Multiline = true;
             this.tbLog.Name = "tbLog";
-            this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbLog.Size = new System.Drawing.Size(529, 381);
+            this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbLog.Size = new System.Drawing.Size(529, 371);
             this.tbLog.TabIndex = 0;
             this.tbLog.WordWrap = false;
             // 
@@ -95,6 +97,7 @@
             // 
             // panEdit
             // 
+            this.panEdit.Controls.Add(this.btnOpenFTPFolder);
             this.panEdit.Controls.Add(this.label8);
             this.panEdit.Controls.Add(this.label7);
             this.panEdit.Controls.Add(this.label6);
@@ -124,7 +127,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label8.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label8.Location = new System.Drawing.Point(151, 178);
+            this.label8.Location = new System.Drawing.Point(174, 178);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(113, 12);
             this.label8.TabIndex = 20;
@@ -135,7 +138,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label7.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label7.Location = new System.Drawing.Point(151, 133);
+            this.label7.Location = new System.Drawing.Point(174, 133);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(137, 12);
             this.label7.TabIndex = 19;
@@ -146,7 +149,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label6.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label6.Location = new System.Drawing.Point(151, 88);
+            this.label6.Location = new System.Drawing.Point(174, 88);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(131, 12);
             this.label6.TabIndex = 18;
@@ -157,7 +160,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label5.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label5.Location = new System.Drawing.Point(151, 43);
+            this.label5.Location = new System.Drawing.Point(174, 43);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(119, 12);
             this.label5.TabIndex = 17;
@@ -165,7 +168,7 @@
             // 
             // tbFTPHost
             // 
-            this.tbFTPHost.Location = new System.Drawing.Point(151, 61);
+            this.tbFTPHost.Location = new System.Drawing.Point(174, 61);
             this.tbFTPHost.Name = "tbFTPHost";
             this.tbFTPHost.Size = new System.Drawing.Size(253, 21);
             this.tbFTPHost.TabIndex = 16;
@@ -173,7 +176,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(50, 65);
+            this.label4.Location = new System.Drawing.Point(73, 65);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(83, 12);
             this.label4.TabIndex = 15;
@@ -181,7 +184,7 @@
             // 
             // btnSelectLocalFile
             // 
-            this.btnSelectLocalFile.Location = new System.Drawing.Point(411, 16);
+            this.btnSelectLocalFile.Location = new System.Drawing.Point(434, 16);
             this.btnSelectLocalFile.Name = "btnSelectLocalFile";
             this.btnSelectLocalFile.Size = new System.Drawing.Size(35, 23);
             this.btnSelectLocalFile.TabIndex = 13;
@@ -191,7 +194,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(362, 267);
+            this.btnDelete.Location = new System.Drawing.Point(385, 267);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(100, 23);
             this.btnDelete.TabIndex = 12;
@@ -201,7 +204,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(207, 267);
+            this.btnSave.Location = new System.Drawing.Point(269, 267);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 23);
             this.btnSave.TabIndex = 11;
@@ -211,7 +214,7 @@
             // 
             // btnTestFTP
             // 
-            this.btnTestFTP.Location = new System.Drawing.Point(52, 267);
+            this.btnTestFTP.Location = new System.Drawing.Point(153, 267);
             this.btnTestFTP.Name = "btnTestFTP";
             this.btnTestFTP.Size = new System.Drawing.Size(100, 23);
             this.btnTestFTP.TabIndex = 10;
@@ -224,7 +227,7 @@
             this.cbEnable.AutoSize = true;
             this.cbEnable.Checked = true;
             this.cbEnable.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbEnable.Location = new System.Drawing.Point(151, 239);
+            this.cbEnable.Location = new System.Drawing.Point(174, 239);
             this.cbEnable.Name = "cbEnable";
             this.cbEnable.Size = new System.Drawing.Size(72, 16);
             this.cbEnable.TabIndex = 9;
@@ -233,7 +236,7 @@
             // 
             // tbFTPPwd
             // 
-            this.tbFTPPwd.Location = new System.Drawing.Point(151, 196);
+            this.tbFTPPwd.Location = new System.Drawing.Point(174, 196);
             this.tbFTPPwd.Name = "tbFTPPwd";
             this.tbFTPPwd.Size = new System.Drawing.Size(253, 21);
             this.tbFTPPwd.TabIndex = 7;
@@ -241,7 +244,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(86, 202);
+            this.label3.Location = new System.Drawing.Point(109, 202);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(47, 12);
             this.label3.TabIndex = 6;
@@ -249,7 +252,7 @@
             // 
             // tbFTPUserName
             // 
-            this.tbFTPUserName.Location = new System.Drawing.Point(151, 151);
+            this.tbFTPUserName.Location = new System.Drawing.Point(174, 151);
             this.tbFTPUserName.Name = "tbFTPUserName";
             this.tbFTPUserName.Size = new System.Drawing.Size(253, 21);
             this.tbFTPUserName.TabIndex = 5;
@@ -257,7 +260,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(74, 157);
+            this.label1.Location = new System.Drawing.Point(97, 157);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 12);
             this.label1.TabIndex = 4;
@@ -265,7 +268,7 @@
             // 
             // tbFTPFolder
             // 
-            this.tbFTPFolder.Location = new System.Drawing.Point(151, 106);
+            this.tbFTPFolder.Location = new System.Drawing.Point(174, 106);
             this.tbFTPFolder.Name = "tbFTPFolder";
             this.tbFTPFolder.Size = new System.Drawing.Size(253, 21);
             this.tbFTPFolder.TabIndex = 3;
@@ -273,7 +276,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(74, 110);
+            this.label2.Location = new System.Drawing.Point(97, 110);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 12);
             this.label2.TabIndex = 2;
@@ -281,7 +284,7 @@
             // 
             // tbLocalFolder
             // 
-            this.tbLocalFolder.Location = new System.Drawing.Point(151, 16);
+            this.tbLocalFolder.Location = new System.Drawing.Point(174, 16);
             this.tbLocalFolder.Name = "tbLocalFolder";
             this.tbLocalFolder.Size = new System.Drawing.Size(253, 21);
             this.tbLocalFolder.TabIndex = 1;
@@ -289,7 +292,7 @@
             // lblLocalFolder
             // 
             this.lblLocalFolder.AutoSize = true;
-            this.lblLocalFolder.Location = new System.Drawing.Point(68, 20);
+            this.lblLocalFolder.Location = new System.Drawing.Point(91, 20);
             this.lblLocalFolder.Name = "lblLocalFolder";
             this.lblLocalFolder.Size = new System.Drawing.Size(65, 12);
             this.lblLocalFolder.TabIndex = 0;
@@ -298,9 +301,9 @@
             // panLog
             // 
             this.panLog.Controls.Add(this.tbLog);
-            this.panLog.Location = new System.Drawing.Point(12, 138);
+            this.panLog.Location = new System.Drawing.Point(12, 148);
             this.panLog.Name = "panLog";
-            this.panLog.Size = new System.Drawing.Size(529, 381);
+            this.panLog.Size = new System.Drawing.Size(529, 371);
             this.panLog.TabIndex = 3;
             // 
             // panDataGrid
@@ -346,7 +349,7 @@
             this.panLogList.Controls.Add(this.lbLogTxt);
             this.panLogList.Location = new System.Drawing.Point(13, 13);
             this.panLogList.Name = "panLogList";
-            this.panLogList.Size = new System.Drawing.Size(528, 119);
+            this.panLogList.Size = new System.Drawing.Size(528, 100);
             this.panLogList.TabIndex = 6;
             // 
             // lbLogTxt
@@ -356,22 +359,43 @@
             this.lbLogTxt.ItemHeight = 12;
             this.lbLogTxt.Location = new System.Drawing.Point(0, 0);
             this.lbLogTxt.Name = "lbLogTxt";
-            this.lbLogTxt.Size = new System.Drawing.Size(528, 119);
+            this.lbLogTxt.Size = new System.Drawing.Size(528, 100);
             this.lbLogTxt.TabIndex = 0;
             this.lbLogTxt.SelectedIndexChanged += new System.EventHandler(this.lbLogTxt_SelectedIndexChanged);
+            // 
+            // btnOpenFTPFolder
+            // 
+            this.btnOpenFTPFolder.Location = new System.Drawing.Point(37, 267);
+            this.btnOpenFTPFolder.Name = "btnOpenFTPFolder";
+            this.btnOpenFTPFolder.Size = new System.Drawing.Size(100, 23);
+            this.btnOpenFTPFolder.TabIndex = 21;
+            this.btnOpenFTPFolder.Text = "打开FTP文件夹";
+            this.btnOpenFTPFolder.UseVisualStyleBackColor = true;
+            this.btnOpenFTPFolder.Click += new System.EventHandler(this.btnOpenFTPFolder_Click);
+            // 
+            // btnRefreshLog
+            // 
+            this.btnRefreshLog.Location = new System.Drawing.Point(463, 119);
+            this.btnRefreshLog.Name = "btnRefreshLog";
+            this.btnRefreshLog.Size = new System.Drawing.Size(75, 23);
+            this.btnRefreshLog.TabIndex = 7;
+            this.btnRefreshLog.Text = "刷新日志";
+            this.btnRefreshLog.UseVisualStyleBackColor = true;
+            this.btnRefreshLog.Click += new System.EventHandler(this.btnRefreshLog_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1085, 531);
+            this.Controls.Add(this.btnRefreshLog);
             this.Controls.Add(this.panLogList);
             this.Controls.Add(this.panDataGrid);
             this.Controls.Add(this.panLog);
             this.Controls.Add(this.panEdit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
-            this.Text = "色谱分析报告自动采集上传软件V1.0";
+            this.Text = "色谱分析报告自动采集软件V1.0";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dgvConfigs)).EndInit();
@@ -418,6 +442,8 @@
         private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
         private System.Windows.Forms.Panel panLogList;
         private System.Windows.Forms.ListBox lbLogTxt;
+        private System.Windows.Forms.Button btnOpenFTPFolder;
+        private System.Windows.Forms.Button btnRefreshLog;
     }
 }
 

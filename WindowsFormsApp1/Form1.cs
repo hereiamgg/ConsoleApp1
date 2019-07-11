@@ -11,6 +11,7 @@ using System.Text;
 using System.Windows.Forms;
 using DIMSClient.Model;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace DIMSClient
 {
@@ -27,7 +28,7 @@ namespace DIMSClient
             InitializeComponent();
             try
             {
-                GetData();
+                InitData();
                 InitEditPanel();
                 DoUploadTask();
             }
@@ -97,10 +98,14 @@ namespace DIMSClient
             }
         }
 
-        private void GetData()
+        private void InitData()
         {
             dataTableMemory = XmlHelper.GetTable(configpath, XmlHelper.XmlType.File, "mapping");
             this.dgvConfigs.DataSource = dataTableMemory;
+            if (dataTableMemory.Rows.Count >0)
+            {
+                selectRowIndex = 0;
+            }
             //log
             lbLogTxt.Items.Clear();
             DirectoryInfo directoryInfo = new DirectoryInfo($"{Directory.GetCurrentDirectory()}/logs");
@@ -109,6 +114,16 @@ namespace DIMSClient
             {
                 this.lbLogTxt.Items.Add(fileInfo.FullName);
             }
+            if (fileInfos.Length > 0)
+            {
+                lbLogTxt.SelectedIndex = 0;
+            }
+        }
+
+        private void UpdateData()
+        {
+            dataTableMemory = XmlHelper.GetTable(configpath, XmlHelper.XmlType.File, "mapping");
+            this.dgvConfigs.DataSource = dataTableMemory;
         }
 
         private void InitEditPanel()
@@ -150,7 +165,7 @@ namespace DIMSClient
                     dataTableMemory.Rows[i]["序号"] = i + 1; //修正序号为唯一自然顺序
                 }
                 dataTableMemory.WriteXml(configpath);
-                GetData();
+                UpdateData();
                 
                 DoUploadTask();
             }
@@ -198,7 +213,7 @@ namespace DIMSClient
                             dataTableMemory.Rows.Add(dataRow);
                         }
                         dataTableMemory.WriteXml(configpath);
-                        GetData();
+                        UpdateData();
                     }
                     else
                     {
@@ -222,7 +237,7 @@ namespace DIMSClient
                                 dataRow["状态"] = cbEnable.Checked ? "启用" : "禁用";
                             }
                             dataTableMemory.WriteXml(configpath);
-                            GetData();
+                            UpdateData();
                         }
                     }
                 }
@@ -263,6 +278,7 @@ namespace DIMSClient
             try
             {
                 FileInfo fileInfo = new FileInfo(sourcePath);//get fileinfo object for lastwritetime
+                DateTime dtLastWriteTime = fileInfo.LastWriteTime.AddHours(-8);
                 if (Path.GetExtension(sourcePath).ToLower() == ".exe" || Path.GetExtension(sourcePath).ToLower() == ".bat")
                 {
                     log.Warn($"{sourcePath}不允许上传！");
@@ -289,7 +305,7 @@ namespace DIMSClient
                             ostream.Write(buf, 0, read);
                         }
                     }
-                    ftpClient.SetModifiedTime(targetFileName, fileInfo.LastWriteTime.AddHours(-8));
+                    ftpClient.SetModifiedTime(targetFileName, dtLastWriteTime);
                     string msg = $"{sourcePath}上传成功，{mapping.FtpHost}/{targetFileName}";
                     log.Info(msg);
                     this.notifyIcon.ShowBalloonTip(5000, "提示", $"{sourcePath}上传成功！", ToolTipIcon.Info);
@@ -441,9 +457,31 @@ namespace DIMSClient
             }
         }
 
-        private void btnSelectFTP_Click(object sender, EventArgs e)
+        private void btnOpenFTPFolder_Click(object sender, EventArgs e)
         {
+            // open ftp folder in explorer,for user uplaod report manual.
+            if (dgvConfigs.CurrentRow != null)
+            {
+                Process p = new Process();
+                p.StartInfo.FileName = "explorer.exe";
+                p.StartInfo.Arguments = $"ftp://{dgvConfigs.CurrentRow.Cells["FTP账号"].Value.ToString()}:{dgvConfigs.CurrentRow.Cells["FTP密码"].Value.ToString()}@{dgvConfigs.CurrentRow.Cells["FTP服务器地址"].Value.ToString()}/{dgvConfigs.CurrentRow.Cells["FTP文件夹"].Value.ToString()}";
+                p.Start();
+            }
+        }
 
+        private void btnRefreshLog_Click(object sender, EventArgs e)
+        {
+            lbLogTxt.Items.Clear();
+            DirectoryInfo directoryInfo = new DirectoryInfo($"{Directory.GetCurrentDirectory()}/logs");
+            FileInfo[] fileInfos = directoryInfo.GetFiles();
+            foreach (FileInfo fileInfo in fileInfos)
+            {
+                this.lbLogTxt.Items.Add(fileInfo.FullName);
+            }
+            if ( fileInfos.Length > 0 )
+            {
+                lbLogTxt.SelectedIndex = 0;
+            }
         }
     }
 }
